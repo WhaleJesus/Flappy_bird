@@ -1,0 +1,5 @@
+BIRD 		img/bird.xpm
+PIPE TOP	img/pipe_top.xpm
+PIPE BOT	img/pipe_bot.xpm
+BG			img/bg.xpm
+TCOLOR		0x9c4ba8

@@ -21,6 +21,8 @@ void	my_pixel_put(t_data *data, int x, int y, int color)
 {
 	char *dst;
 
+	if (data->tcolorbool && color == data->tcolor)
+		return ;
 	if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
 	{
 		dst = data->addr + (y * data->line_length + x
@@ -49,4 +51,26 @@ void	draw_img_on_canvas(t_data *data, t_img *img, int x, int y)
 		}
 		i++;
 	}
+}
+
+void	draw_canvas(t_data *data)
+{
+	int	i = data->bg->height;
+	int	j;
+
+	draw_img_on_canvas(data, data->bg, 0, 0);
+	if (data->bg->height < WINDOW_HEIGHT)
+	{
+		while (i < WINDOW_HEIGHT)
+		{
+			j = 0;
+			while (j < WINDOW_WIDTH)
+				my_pixel_put(data, j++, i, 0x808080);
+			i++;
+		}
+	}
+
+	draw_img_on_canvas(data, data->bird, data->bird->x, data->bird->y);
+
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }

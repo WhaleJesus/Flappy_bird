@@ -18,10 +18,15 @@ OBJS_DIR = objs
 INC_DIR = includes
 
 SRCS = $(SRC_DIR)/flappybird.c \
+	   $(SRC_DIR)/init.c \
+	   $(SRC_DIR)/time.c \
+	   $(SRC_DIR)/exit_flappy.c \
+	   $(SRC_DIR)/read_file.c \
+	   $(SRC_DIR)/draw.c
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 MINILIBX = mlx
-LIBFT = includes/libft
+LIBFT = libft
 
 FMS = -L$(LIBFT) -lft -L$(MINILIBX) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm
 
