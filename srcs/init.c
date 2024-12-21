@@ -32,26 +32,27 @@ void	init_move(t_data *data, t_move *move)
 	move->flap_strength = -200;
 	move->flap = 0;
 	move->pipe_velocity = 200.0f;
-	move->pipe_gap_y = data->bird->height * 3;
+	move->pipe_gap_y = data->bird->height * 2;
 	move->pipe_gap_x = 200;
-	move->n_pipes = ((WINDOW_WIDTH / (data->pipe_top->width + (move->pipe_gap_x))) * 2) - 1;
+	//move->pipe_gap_x = (WINDOW_WIDTH / data->pipe_top->width);
+	move->n_pipes = ((WINDOW_WIDTH / (data->pipe_top->width + move->pipe_gap_x)) + 1);
 	move->pipe_pos_x = malloc(sizeof(int) * move->n_pipes);
 	move->pipe_pos_y = malloc(sizeof(int) * move->n_pipes);
 	move->pipe_score = malloc(sizeof(int) * move->n_pipes);
-	move->spawn_pipe = data->pipe_top->width + move->pipe_gap_x;
+	move->spawn_pipe = data->pipe_top->width;
 	
 	i = 0;
 	while (i < move->n_pipes)
 	{
-		pos = move->spawn_pipe * (i + 1) + WINDOW_WIDTH;
+		pos = (move->spawn_pipe + move->pipe_gap_x) * (i + 1) + WINDOW_WIDTH;
 		move->pipe_pos_x[i] = pos;
 		move->pipe_pos_y[i] = calc_pipe_y(data, move);
 		move->pipe_score[i] = 0;
 		i++;
-		//printf("pos: %f\n", pos);
+		printf("pos: %f\n", pos);
 	}
 
-	printf("ytuhhh %i\n", move->n_pipes);
+	printf("ytuhhh %i, %i\n", move->n_pipes, move->pipe_gap_x);
 }
 
 void	init_mlx(t_data *data)
