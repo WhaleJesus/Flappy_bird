@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 07:38:55 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/20 09:31:30 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/21 17:50:51 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	draw_canvas(t_data *data)
 {
 	int	i = data->bg->height;
 	int	j;
+	int pos_y;
 
 	draw_img_on_canvas(data, data->bg, 0, 0);
 	if (data->bg->height < WINDOW_HEIGHT)
@@ -70,6 +71,15 @@ void	draw_canvas(t_data *data)
 		}
 	}
 
+	i = 0;
+	while (i < data->move->n_pipes)
+	{
+		pos_y = data->move->pipe_pos_y[i] - ((data->move->pipe_gap_y / 2) + data->pipe_top->height);
+		draw_img_on_canvas(data, data->pipe_top, data->move->pipe_pos_x[i], pos_y);
+		pos_y = data->move->pipe_pos_y[i] + (data->move->pipe_gap_y / 2);
+		draw_img_on_canvas(data, data->pipe_bot, data->move->pipe_pos_x[i], pos_y);
+		i++;
+	}
 	draw_img_on_canvas(data, data->bird, data->bird->x, data->bird->y);
 
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);

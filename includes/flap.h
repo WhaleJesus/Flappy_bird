@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 04:23:16 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/20 05:35:46 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/21 18:08:26 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #  define WINDOW_HEIGHT 720
 # endif
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1280
+#  define WINDOW_WIDTH 720
 # endif
 
 // init
@@ -46,6 +46,7 @@ void	draw_canvas(t_data *data);
 unsigned long	get_time();
 unsigned long	get_timediff(unsigned long start);
 int				bird_flap(int keycode, t_data *data);
+int				calc_pipe_y(t_data *data, t_move *move);
 
 // error and exit
 void	exit_msg(char *msg);

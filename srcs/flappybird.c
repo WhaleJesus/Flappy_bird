@@ -6,14 +6,67 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 04:22:51 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/20 09:49:36 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:34:44 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/flap.h"
 
-void	draw_pipes(t_data *data, t_move *move)
+void	calc_hitboxes(t_data *data, t_move *move)
 {
+	int	i;
+
+	i = 0;
+	while (i < move->n_pipes)
+	{
+		if (move->pipe_pos_x[i] <= data->bird->x + data->bird->width
+				&& data->bird->x <= move->pipe_pos_x[i] + data->pipe_top->width)
+		{
+			if (data->bird->y < move->pipe_pos_y[i] - move->pipe_gap_y / 2
+					|| data->bird->y + data->bird->height > move->pipe_pos_y[i] + move->pipe_gap_y / 2)
+			{
+				printf("hit\n");
+				data->gameover = true;
+			}
+			if (move->pipe_score[i] == 0)
+			{
+				data->score++;
+				move->pipe_score[i] = 1;
+				printf("Score: %lu\n", data->score);
+			}
+		}
+		i++;
+	}
+}
+
+int		calc_pipe_y(t_data *data, t_move *move)
+{
+	float	pos;
+
+	pos = WINDOW_HEIGHT / 2;
+
+	return ((int)floor(pos));
+}
+
+void	update_pipes(t_data *data, t_move *move)
+{
+	int		i;
+	float	pos;
+
+	i = 0;
+	while (i < move->n_pipes)
+	{
+		pos = (float)move->pipe_pos_x[i];
+		pos -= (move->pipe_velocity * move->delta_time);
+		if (pos < data->pipe_top->width * -1)
+		{
+			pos = (float)move->spawn_pipe + WINDOW_WIDTH;
+			move->pipe_pos_y[i] = calc_pipe_y(data, move);
+			move->pipe_score[i] = 0;
+		}
+		move->pipe_pos_x[i] = (int)floor(pos);
+		i++;
+	}
 }
 
 int	bird_flap(int keycode, t_data *data)
@@ -43,41 +96,35 @@ void	update_bird(t_data *data, t_move *move)
 	data->bird->y = (int)floor(move->bird_y);
 }
 
-void	check_frame(t_data *data)
+int	check_frame(t_data *data)
 {
 	unsigned long			time;
 	static unsigned long	last_time = 0;
 	static unsigned long	last_time_sec = 0;
 	static unsigned long	last_time_flap = 0;
+	static unsigned long	fps = 0;
 
 	time = get_timediff((unsigned long)data->time);
-/*
-	if (data->move->flap == 1)
-	{
-		last_time_flap = time;
-		data->move->flap = 2;
-	}
-	if (data->move->flap == 2 && time - last_time_flap >= 2 * 1000000)
-		data->move->flap = 0;
-*/
 	if (time - last_time >= 16666)
 	{
 		if (time - last_time_sec >= 1000000)
 		{
 			last_time_sec = time;
-			printf("fps: %lu bird_y: %f\n", data->frame % 60, data->move->bird_y);
+			printf("fps: %lu\n", data->frame - fps);
+			fps = data->frame;
 		}
 		data->frame++;
 		last_time = time;
 		
-		update_bird(data, data->move);
-		draw_canvas(data);
+		if (!data->gameover)
+		{
+			update_bird(data, data->move);
+			update_pipes(data, data->move);
+			calc_hitboxes(data, data->move);
+			draw_canvas(data);
+		}
 	}
-}
 
-int	flap_loop(t_data *data)
-{
-	check_frame(data);
 	return (0);
 }
 
@@ -96,6 +143,6 @@ int	main(int ac, char **av)
 	data.time = get_time();
 	mlx_hook(data.win, 2, 1L<<0, bird_flap, &data);
 	mlx_hook(data.win, 17, 0, exit_flap_loop, &data);
-	mlx_loop_hook(data.mlx, flap_loop, &data);
+	mlx_loop_hook(data.mlx, check_frame, &data);
 	mlx_loop(data.mlx);
 }

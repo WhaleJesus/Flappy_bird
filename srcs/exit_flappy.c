@@ -43,6 +43,12 @@ void	exit_flap(t_data *data, char *msg, bool init)
 		free(data->pipe_bot->path);
 	if (data->bird->path)
 		free(data->bird->path);
+	if (data->move->pipe_pos_x)
+		free(data->move->pipe_pos_x);
+	if (data->move->pipe_pos_y)
+		free(data->move->pipe_pos_y);
+	if (data->move->pipe_score)
+		free(data->move->pipe_score);
 
 	free(data->bg);
 	free(data->pipe_top);

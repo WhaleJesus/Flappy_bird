@@ -22,17 +22,36 @@ void	init_imgs(t_data *data)
 
 void	init_move(t_data *data, t_move *move)
 {
+	int		i;
+	float	pos;
+
 	move->delta_time = 0.016f;
 	move->bird_y = data->bird->y;
 	move->bird_velocity = 0.0f;
 	move->gravity = 300;
 	move->flap_strength = -200;
 	move->flap = 0;
-	move->pipe_x = 0;
-	move->pipe_gap_y = data->bird->height * 2;
-	move->pipe_gap_x = 100;
-	move->pipe_pos = malloc(sizeof(int) * (WINDOW_WIDTH / (data->pipe_top->width + move->pipe_gap_x)));
-	printf("ytuhhh %i %s\n", WINDOW_WIDTH / (data->pipe_top->width + move->pipe_gap_x), data->pipe_top->path);
+	move->pipe_velocity = 200.0f;
+	move->pipe_gap_y = data->bird->height * 3;
+	move->pipe_gap_x = 200;
+	move->n_pipes = ((WINDOW_WIDTH / (data->pipe_top->width + (move->pipe_gap_x))) * 2) - 1;
+	move->pipe_pos_x = malloc(sizeof(int) * move->n_pipes);
+	move->pipe_pos_y = malloc(sizeof(int) * move->n_pipes);
+	move->pipe_score = malloc(sizeof(int) * move->n_pipes);
+	move->spawn_pipe = data->pipe_top->width + move->pipe_gap_x;
+	
+	i = 0;
+	while (i < move->n_pipes)
+	{
+		pos = move->spawn_pipe * (i + 1) + WINDOW_WIDTH;
+		move->pipe_pos_x[i] = pos;
+		move->pipe_pos_y[i] = calc_pipe_y(data, move);
+		move->pipe_score[i] = 0;
+		i++;
+		//printf("pos: %f\n", pos);
+	}
+
+	printf("ytuhhh %i\n", move->n_pipes);
 }
 
 void	init_mlx(t_data *data)
@@ -46,6 +65,7 @@ void	init_mlx(t_data *data)
 	data->file = NULL;
 	data->frame = 0;
 	data->gameover = 0;
+	data->score = 0;
 	data->tcolor = 0;
 	data->tcolorbool = false;
 	data->move = malloc(sizeof(t_move));

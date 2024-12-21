@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 05:23:35 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/20 09:35:23 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/21 20:39:21 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ typedef struct	s_move
 	int		gravity;
 	int		flap_strength;
 	int		flap;
-	float 	pipe_x;
+	float	pipe_velocity;
 	int		pipe_gap_x;
 	int		pipe_gap_y;
-	int		*pipe_pos;
+	int		*pipe_pos_x;
+	int		*pipe_pos_y;
+	int		*pipe_score;
+	int		spawn_pipe;
+	int		n_pipes;
 }	t_move;
 
 typedef struct	s_data
@@ -66,6 +70,7 @@ typedef struct	s_data
 	unsigned long	time;
 	unsigned long	frame;
 	int				gameover;
+	unsigned long	score;
 }	t_data;
 
 #endif
