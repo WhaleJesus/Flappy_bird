@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 04:23:16 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 08:05:41 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/22 18:57:50 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #  define WINDOW_HEIGHT 720
 # endif
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 720
+#  define WINDOW_WIDTH 1280
 # endif
 
 // init
@@ -42,6 +42,7 @@ void	check_file(t_data *data, char *path);
 
 //	draw
 void	draw_canvas(t_data *data);
+void	draw_fps(t_data *data, int fps);
 void	draw_gameover(t_data *data);
 
 int		draw_sentence(t_data *data, char *str, int x, int y, int size);

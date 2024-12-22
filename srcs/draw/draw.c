@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 07:38:55 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 07:58:37 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/22 19:06:03 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,24 @@ void	draw_score(t_data *data)
 	x = (WINDOW_WIDTH / 2) - (get_string_width(data, score, size) / 2);
 	y = WINDOW_HEIGHT * 0.05;
 	draw_sentence(data, score, x, y, size);
+	free(score);
+}
+
+void	draw_fps(t_data *data, int fps)
+{
+	int		x;
+	int		y;
+	int		offset;
+	int		size;
+	char	*sfps;
+
+	size = 10;
+	offset = 5;
+	sfps = ft_itoa(fps);
+	x = offset;
+	y = WINDOW_HEIGHT - offset - (size * 5);
+	x = draw_sentence(data, sfps, x, y, size);
+	free(sfps);
 }
 
 void	draw_canvas(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 09:39:23 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 05:51:52 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/22 20:30:05 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,10 @@ int	parse_hex(t_data *data, char *str)
 
 void	store_settings(t_data *data, char **file)
 {
-	int	i;
+	int		i;
+	char	*str;
 
+	str = NULL;
 	i = 0;
 	while (file[i])
 	{
@@ -194,9 +196,14 @@ void	store_settings(t_data *data, char **file)
 		if (!ft_strncmp("TCOLOR", file[i], ft_strlen("TCOLOR")))
 			data->tcolor = parse_hex(data, file[i] + ft_strlen("TCOLOR"));
 		if (!ft_strncmp("LETTERS", file[i], ft_strlen("LETTERS")))
-			data->letters = read_file(data, strip_ws(file[i] + ft_strlen("LETTERS")), 1);
+		{
+			str = strip_ws(file[i] + ft_strlen("LETTERS"));
+			data->letters = read_file(data, str, 1);
+		}
 		i++;
 	}
+	if (str)
+		free(str);
 }
 
 void	check_file(t_data *data, char *path)

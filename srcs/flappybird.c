@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 04:22:51 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 08:07:59 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/22 19:11:36 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	calc_hitboxes(t_data *data, t_move *move)
 int		calc_pipe_y(t_data *data, t_move *move)
 {
 	float	pos;
-	int		offset = 200;
-	int		top = offset;
-	int		bot = WINDOW_HEIGHT - offset;
+	float	offset = 0.3;
+	int		top = WINDOW_HEIGHT * offset;
+	int		bot = WINDOW_HEIGHT * (1 - offset);
 
 	srand(time(NULL));
 	pos = (rand() % (bot - top + 1) + top);
@@ -148,6 +148,7 @@ int	check_frame(t_data *data)
 	static unsigned long	last_time_sec = 0;
 	static unsigned long	last_time_flap = 0;
 	static unsigned long	fps = 0;
+	static int				fps2;
 
 	time = get_timediff((unsigned long)data->time);
 	if (time - last_time >= 16666)
@@ -155,7 +156,7 @@ int	check_frame(t_data *data)
 		if (time - last_time_sec >= 1000000)
 		{
 			last_time_sec = time;
-			printf("fps: %lu\n", data->frame - fps);
+			fps2 = data->frame - fps;
 			fps = data->frame;
 		}
 		
@@ -175,6 +176,7 @@ int	check_frame(t_data *data)
 			draw_canvas(data);
 			draw_gameover(data);
 		}
+		draw_fps(data, fps2);
 		mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	}
 
