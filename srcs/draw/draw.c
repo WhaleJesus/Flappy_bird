@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 07:38:55 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 19:06:03 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/22 20:47:38 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,12 +192,12 @@ void	draw_fps(t_data *data, int fps)
 	int		size;
 	char	*sfps;
 
-	size = 10;
+	size = 20;
 	offset = 5;
 	sfps = ft_itoa(fps);
 	x = offset;
-	y = WINDOW_HEIGHT - offset - (size * 5);
-	x = draw_sentence(data, sfps, x, y, size);
+	y = WINDOW_HEIGHT - offset - size;
+	draw_sentence(data, sfps, x, y, size);
 	free(sfps);
 }
 
