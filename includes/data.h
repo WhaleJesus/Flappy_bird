@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 05:23:35 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/21 20:39:21 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/22 04:56:32 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct	s_data
 	bool			error;
 	char			*errstr;
 	char			**file;
+	char			**letters;
+	bool			letter_calc;
 	unsigned long	time;
 	unsigned long	frame;
 	int				gameover;

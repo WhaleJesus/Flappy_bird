@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 09:39:23 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/20 10:11:17 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/22 05:51:52 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ char	*strip_soh(char *str)
 	j = 0;
 	while (str[i])
 	{
-		if (ft_isalnum(str[i]) || str[i] == '\n' || str[i] == 32
-				|| str[i] == '\t' || str[i] == 47 || str[i] == '.'
-				|| str[i] == '_' || str[i] == '-')
+		if (ft_isalnum(str[i]) || str[i] == '\n' || str[i] == '\t'
+				|| str[i] == 47 || str[i] >= 32)
 			j++;
 		i++;
 	}
@@ -33,13 +32,13 @@ char	*strip_soh(char *str)
 	j = 0;
 	while (str[i])
 	{
-		if (ft_isalnum(str[i]) || str[i] == '\n' || str[i] == 32
-				|| str[i] == '\t' || str[i] == 47 || str[i] == '.'
-				|| str[i] == '_' || str[i] == '-')
+		if (ft_isalnum(str[i]) || str[i] == '\n' || str[i] == '\t'
+				|| str[i] == 47 || str[i] >= 32)
 			tmp[j++] = str[i];
 		i++;
 	}
 	tmp[j] = '\0';
+	printf("%s\n", tmp);
 	return (tmp);
 }
 
@@ -109,12 +108,14 @@ char	*check_img(t_data *data, char *path)
 	return (path);
 }
 
-void	read_file(t_data *data, char *path, int rd)
+char	**read_file(t_data *data, char *path, int rd)
 {
 	int		fd;
 	char	buf;
 	char	*wholefile;
+	char	*error;
 	char	*tmp;
+	char	**ret;
 
 	wholefile = ft_strdup("");
 	if (!wholefile)
@@ -125,7 +126,10 @@ void	read_file(t_data *data, char *path, int rd)
 		if (fd > 0)
 			close(fd);
 		else
-			add_error(data, "Could not open file");
+		{
+			error = ft_strjoin("Could not open file ", path);
+			add_error(data, error);
+		}
 		if (wholefile)
 			free(wholefile);
 		exit_flap(data, NULL, true);
@@ -138,10 +142,23 @@ void	read_file(t_data *data, char *path, int rd)
 		free(tmp);
 	}
 	tmp = strip_soh(wholefile);
-	data->file = ft_split(tmp, '\n');
+	ret = ft_split(tmp, '\n');
 	if (fd > 0)
 		close(fd);
-	return (free(wholefile), free(tmp));
+	return (free(wholefile), free(tmp), ret);
+}
+
+void	print_file(t_data *data, char **file)
+{
+	int	i;
+	
+	i = 0;
+	while (file[i])
+	{
+		printf("%s\n", file[i]);
+		i++;
+	}
+	data->error = true;
 }
 
 int	parse_hex(t_data *data, char *str)
@@ -176,14 +193,17 @@ void	store_settings(t_data *data, char **file)
 			data->bird->path = check_img(data, file[i] + ft_strlen("BIRD"));
 		if (!ft_strncmp("TCOLOR", file[i], ft_strlen("TCOLOR")))
 			data->tcolor = parse_hex(data, file[i] + ft_strlen("TCOLOR"));
+		if (!ft_strncmp("LETTERS", file[i], ft_strlen("LETTERS")))
+			data->letters = read_file(data, strip_ws(file[i] + ft_strlen("LETTERS")), 1);
 		i++;
 	}
 }
 
 void	check_file(t_data *data, char *path)
 {
-	read_file(data, path, 1);
+	data->file = read_file(data, path, 1);
 	store_settings(data, data->file);
+//	print_file(data, data->letters);
 	if (data->error)
 		exit_flap(data, NULL, true);
 }

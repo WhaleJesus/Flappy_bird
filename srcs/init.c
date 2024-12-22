@@ -34,7 +34,7 @@ void	init_move(t_data *data, t_move *move)
 	move->pipe_velocity = 200.0f;
 	move->pipe_gap_y = data->bird->height * 2;
 	move->pipe_gap_x = 200;
-	//move->pipe_gap_x = (WINDOW_WIDTH / data->pipe_top->width);
+//	move->pipe_gap_x = (WINDOW_WIDTH / data->pipe_top->width);
 	move->n_pipes = ((WINDOW_WIDTH / (data->pipe_top->width + move->pipe_gap_x)) + 1);
 	move->pipe_pos_x = malloc(sizeof(int) * move->n_pipes);
 	move->pipe_pos_y = malloc(sizeof(int) * move->n_pipes);
@@ -64,6 +64,8 @@ void	init_mlx(t_data *data)
 	data->error = false;
 	data->errstr = ft_strdup("");
 	data->file = NULL;
+	data->letters = NULL;
+	data->letter_calc = NULL;
 	data->frame = 0;
 	data->gameover = 0;
 	data->score = 0;

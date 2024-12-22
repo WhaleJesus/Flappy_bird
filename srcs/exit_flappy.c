@@ -58,9 +58,16 @@ void	exit_flap(t_data *data, char *msg, bool init)
 
 	if (data->file)
 	{
-		while(data->file[i])
+		while (data->file[i])
 			free(data->file[i++]);
 		free(data->file);
+	}
+	if (data->letters)
+	{
+		i = 0;
+		while (data->letters[i])
+			free(data->letters[i++]);
+		free(data->letters);
 	}
 	
 	mlx_destroy_image(data->mlx, data->img);

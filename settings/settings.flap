@@ -3,3 +3,4 @@ PIPE TOP	img/pipe_top.xpm
 PIPE BOT	img/pipe_bot.xpm
 BG			img/bg.xpm
 TCOLOR		0xFF000000
+LETTERS		settings/letters.flap

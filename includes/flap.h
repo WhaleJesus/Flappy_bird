@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 04:23:16 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/21 18:08:26 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/22 08:05:41 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <sys/time.h>
+# include <time.h>
 # include <math.h>
 
 # include "../mlx/mlx.h"
@@ -41,6 +42,14 @@ void	check_file(t_data *data, char *path);
 
 //	draw
 void	draw_canvas(t_data *data);
+void	draw_gameover(t_data *data);
+
+int		draw_sentence(t_data *data, char *str, int x, int y, int size);
+int		draw_square(t_data *data, int x, int y, int size);
+int		draw_face(t_data *data, int x, int y, int size, int face);
+int		draw_line_hor(t_data *data, int x, int y, int size);
+int		draw_line_vert(t_data *data, int x, int y, int size);
+int		get_string_width(t_data *data, char *str, int size);
 
 // time & frame & loop?
 unsigned long	get_time();

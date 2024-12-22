@@ -6,7 +6,7 @@
 #    By: fdaems <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/25 14:48:15 by fdaems            #+#    #+#              #
-#    Updated: 2024/12/20 04:22:40 by sklaps           ###   ########.fr        #
+#    Updated: 2024/12/22 04:54:24 by sklaps           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ SRCS = $(SRC_DIR)/flappybird.c \
 	   $(SRC_DIR)/time.c \
 	   $(SRC_DIR)/exit_flappy.c \
 	   $(SRC_DIR)/read_file.c \
-	   $(SRC_DIR)/draw.c
+	   $(SRC_DIR)/draw/draw.c \
+	   $(SRC_DIR)/draw/draw_letters.c \
+	   $(SRC_DIR)/draw/draw_letters_utils.c
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 MINILIBX = mlx
