@@ -27,6 +27,9 @@ void	exit_flap(t_data *data, char *msg, bool init)
 {
 	int	i = 0;
 
+	write_hiscore(data);
+	free_hiscore(data->hiscore);
+
 	if (!init)
 	{
 		mlx_destroy_image(data->mlx, data->bg->img);
@@ -49,26 +52,18 @@ void	exit_flap(t_data *data, char *msg, bool init)
 		free(data->move->pipe_pos_y);
 	if (data->move->pipe_score)
 		free(data->move->pipe_score);
-
+	if (data->hiscore_path)
+		free(data->hiscore_path);
+	
 	free(data->bg);
 	free(data->pipe_top);
 	free(data->pipe_bot);
 	free(data->bird);
 	free(data->move);
 
-	if (data->file)
-	{
-		while (data->file[i])
-			free(data->file[i++]);
-		free(data->file);
-	}
-	if (data->letters)
-	{
-		i = 0;
-		while (data->letters[i])
-			free(data->letters[i++]);
-		free(data->letters);
-	}
+	free_char_arr(data->file);
+	free_char_arr(data->letters);
+	free_char_arr(data->file_hiscore);
 	
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);

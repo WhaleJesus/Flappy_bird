@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 07:38:55 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 20:47:38 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 20:17:42 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,14 +131,16 @@ void	draw_img_on_canvas(t_data *data, t_img *img, int x, int y)
 
 void	draw_gameover(t_data *data)
 {
-	int		i;
-	int		j;
-	float	offset;
-	int		x;
-	int		y;
-	char	*str;
-	char	*tmp;
-	int		size;
+	int			i;
+	int			j;
+	float		offset;
+	int			x;
+	int			y;
+	char		*str;
+	char		*tmp;
+	char		*tmp2;
+	int			size;
+	t_hiscore	*head;
 
 	offset = 0.2;
 	
@@ -154,19 +156,40 @@ void	draw_gameover(t_data *data)
 		i++;
 	}
 	
-	
-	size = 15;
+	size = 20;
 	str = "game over";
 	x = (WINDOW_WIDTH / 2) - (get_string_width(data, str, size) / 2);
 	y = WINDOW_HEIGHT * offset + size;
 	draw_sentence(data, str, x, y, size);
 	
 	y += 6 * size;
-	size = 10;
+	size = 15;
 	tmp = ft_itoa(data->score);
 	str = ft_strjoin("score: ", tmp);
 	x = (WINDOW_WIDTH / 2) - (get_string_width(data, str, size) / 2);
 	draw_sentence(data, str, x, y, size);
+	free(tmp);
+	free(str);
+
+	y += 6 * size;
+	size = 10;
+	head = data->hiscore;
+	i = 0;
+	while (head && i < 10)
+	{
+		tmp = ft_itoa(head->score);
+		tmp2 = ft_strjoin(head->name, " ");
+		str = ft_strjoin(tmp2, tmp);
+		x = (WINDOW_WIDTH / 2) - (get_string_width(data, str, size) / 2);
+		draw_sentence(data, str, x, y, size);
+		free(tmp);
+		free(tmp2);
+		free(str);
+		head = head->next;
+		y += 6 * size;
+		i++;
+	}
+	data->hiscore = get_head(data->hiscore);
 }
 
 void	draw_score(t_data *data)
@@ -192,11 +215,11 @@ void	draw_fps(t_data *data, int fps)
 	int		size;
 	char	*sfps;
 
-	size = 20;
+	size = 5;
 	offset = 5;
 	sfps = ft_itoa(fps);
 	x = offset;
-	y = WINDOW_HEIGHT - offset - size;
+	y = WINDOW_HEIGHT - offset - size * 6;
 	draw_sentence(data, sfps, x, y, size);
 	free(sfps);
 }

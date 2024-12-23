@@ -55,7 +55,7 @@ void	init_move(t_data *data, t_move *move)
 	printf("ytuhhh %i, %i\n", move->n_pipes, move->pipe_gap_x);
 }
 
-void	init_mlx(t_data *data)
+void	init_mlx(t_data *data, char *player_name)
 {
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Flappy Bird");
@@ -65,9 +65,12 @@ void	init_mlx(t_data *data)
 	data->errstr = ft_strdup("");
 	data->file = NULL;
 	data->letters = NULL;
+	data->file_hiscore = NULL;
+	data->hiscore = NULL;
 	data->letter_calc = NULL;
 	data->frame = 0;
 	data->gameover = 0;
+	data->player_name = player_name;
 	data->score = 0;
 	data->tcolor = 0;
 	data->tcolorbool = false;
@@ -87,4 +90,5 @@ void	init_mlx(t_data *data)
 	data->pipe_bot->x = 0;
 	data->pipe_bot->y = 0;
 
+	data->hiscore = make_list(data->file_hiscore);
 }

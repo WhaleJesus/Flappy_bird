@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 09:39:23 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 20:30:05 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 20:00:18 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,8 @@ char	**read_file(t_data *data, char *path, int rd)
 	}
 	tmp = strip_soh(wholefile);
 	ret = ft_split(tmp, '\n');
+	if (!ret)
+		ret = NULL;
 	if (fd > 0)
 		close(fd);
 	return (free(wholefile), free(tmp), ret);
@@ -200,10 +202,16 @@ void	store_settings(t_data *data, char **file)
 			str = strip_ws(file[i] + ft_strlen("LETTERS"));
 			data->letters = read_file(data, str, 1);
 		}
+		if (!ft_strncmp("HISCORE", file[i], ft_strlen("HISCORE")))
+		{
+			str = strip_ws(file[i] + ft_strlen("HISCORE"));
+			data->file_hiscore = read_file(data, str, 1);
+			data->hiscore_path = ft_strdup(str);
+		}
+		if (str)
+			free(str);
 		i++;
 	}
-	if (str)
-		free(str);
 }
 
 void	check_file(t_data *data, char *path)

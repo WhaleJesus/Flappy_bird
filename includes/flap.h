@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 04:23:16 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 18:57:50 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 20:16:40 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,20 @@
 # endif
 
 // init
-void	init_mlx(t_data *data);
+void	init_mlx(t_data *data, char *player_name);
 void	init_imgs(t_data *data);
 void	init_move(t_data *data, t_move *move);
 
 // read file
 void	check_file(t_data *data, char *path);
+
+// hiscore
+t_hiscore	*make_list(char **arr);
+t_hiscore	*get_head(t_hiscore *hiscore);
+void		free_char_arr(char **bruh);
+void		add_player_score(t_data *data);
+void		free_hiscore(t_hiscore *hiscore);
+void		write_hiscore(t_data *data);
 
 //	draw
 void	draw_canvas(t_data *data);

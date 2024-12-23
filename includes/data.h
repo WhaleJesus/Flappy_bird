@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 05:23:35 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 04:56:32 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 18:10:55 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,43 @@ typedef struct	s_move
 	int		n_pipes;
 }	t_move;
 
+typedef struct	s_hiscore
+{
+	char				*name;
+	int					score;
+	struct s_hiscore	*next;
+	struct s_hiscore	*prev;
+}	t_hiscore;
+
 typedef struct	s_data
 {
-	void			*mlx;
-	void			*win;
-	void			*img;
-	void			*addr;
-	int				bits_per_pixel;
-	int				line_length;
-	int				endian;
-	int				tcolor;
-	bool			tcolorbool;
-	struct s_img	*bg;
-	struct s_img	*pipe_top;
-	struct s_img	*pipe_bot;
-	struct s_img	*bird;
-	struct s_move	*move;
-	bool			error;
-	char			*errstr;
-	char			**file;
-	char			**letters;
-	bool			letter_calc;
-	unsigned long	time;
-	unsigned long	frame;
-	int				gameover;
-	unsigned long	score;
+	void				*mlx;
+	void				*win;
+	void				*img;
+	void				*addr;
+	int					bits_per_pixel;
+	int					line_length;
+	int					endian;
+	int					tcolor;
+	bool				tcolorbool;
+	struct s_img		*bg;
+	struct s_img		*pipe_top;
+	struct s_img		*pipe_bot;
+	struct s_img		*bird;
+	struct s_move		*move;
+	char				*player_name;
+	bool				error;
+	char				*errstr;
+	char				**file;
+	char				**letters;
+	char				**file_hiscore;
+	char				*hiscore_path;
+	struct s_hiscore	*hiscore;
+	bool				letter_calc;
+	unsigned long		time;
+	unsigned long		frame;
+	int					gameover;
+	unsigned long		score;
 }	t_data;
 
 #endif
