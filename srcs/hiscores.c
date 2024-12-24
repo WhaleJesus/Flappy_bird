@@ -40,6 +40,8 @@ void	add_node(t_hiscore *hiscore, char *name, int score)
 {
 	t_hiscore	*new;
 	t_hiscore	*head;
+	t_hiscore	*tmp;
+	t_hiscore	*tmp2;
 
 	head = hiscore;
 	while (head->prev)
@@ -47,6 +49,30 @@ void	add_node(t_hiscore *hiscore, char *name, int score)
 	new = new_node(name, score);
 	if (!new)
 		return ;
+	tmp2 = head;
+	while (tmp2)
+	{
+		if (!ft_strncmp(tmp2->name, new->name, ft_strlen(new->name)))
+		{
+			if (head->score <= new->score)
+			{
+				tmp2->prev->next = tmp2->next;
+				tmp2->next->prev = tmp2->prev;
+				tmp = tmp2->next;
+				free(tmp2->name);
+				free(tmp2);
+				tmp2 = tmp;
+				break ;
+			}
+			else
+			{
+				free(new->name);
+				free(new);
+				return ;
+			}
+		}
+		tmp2 = tmp2->next;
+	}
 	while (head)
 	{
 		if (head->score <= new->score)
