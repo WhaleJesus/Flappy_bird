@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 07:38:55 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/23 20:17:42 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 22:17:08 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	draw_gameover(t_data *data)
 	int			size;
 	t_hiscore	*head;
 
-	offset = 0.2;
+	offset = 0.02;
 	
 	i = WINDOW_HEIGHT * offset;
 	while (i < WINDOW_HEIGHT * (1 - offset))
@@ -157,11 +157,11 @@ void	draw_gameover(t_data *data)
 	}
 	
 	size = 20;
-	str = "game over";
+	str = "flappy bird";
 	x = (WINDOW_WIDTH / 2) - (get_string_width(data, str, size) / 2);
 	y = WINDOW_HEIGHT * offset + size;
 	draw_sentence(data, str, x, y, size);
-	
+/*	
 	y += 6 * size;
 	size = 15;
 	tmp = ft_itoa(data->score);
@@ -170,15 +170,15 @@ void	draw_gameover(t_data *data)
 	draw_sentence(data, str, x, y, size);
 	free(tmp);
 	free(str);
-
-	y += 6 * size;
-	size = 10;
+*/
+	y += (6 * size);// * 1.2;
+	size = 9;
 	head = data->hiscore;
 	i = 0;
 	while (head && i < 10)
 	{
 		tmp = ft_itoa(head->score);
-		tmp2 = ft_strjoin(head->name, " ");
+		tmp2 = ft_strjoin(head->name, ":  ");
 		str = ft_strjoin(tmp2, tmp);
 		x = (WINDOW_WIDTH / 2) - (get_string_width(data, str, size) / 2);
 		draw_sentence(data, str, x, y, size);

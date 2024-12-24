@@ -28,11 +28,11 @@ void	init_move(t_data *data, t_move *move)
 	move->delta_time = 0.016f;
 	move->bird_y = data->bird->y;
 	move->bird_velocity = 0.0f;
-	move->gravity = 400;
-	move->flap_strength = -200;
+	move->gravity = 500;
+	move->flap_strength = -250;
 	move->flap = 0;
 	move->pipe_velocity = 200.0f;
-	move->pipe_gap_y = data->bird->height * 2;
+	move->pipe_gap_y = data->bird->height * 1.8;
 	move->pipe_gap_x = 400;
 //	move->pipe_gap_x = (WINDOW_WIDTH / data->pipe_top->width);
 	move->n_pipes = ((WINDOW_WIDTH / (data->pipe_top->width + move->pipe_gap_x)) + 1);
@@ -49,14 +49,15 @@ void	init_move(t_data *data, t_move *move)
 		move->pipe_pos_y[i] = calc_pipe_y(data, move);
 		move->pipe_score[i] = 0;
 		i++;
-		printf("pos: %f\n", pos);
+//		printf("pos: %f\n", pos);
 	}
 
-	printf("ytuhhh %i, %i\n", move->n_pipes, move->pipe_gap_x);
+//	printf("ytuhhh %i, %i\n", move->n_pipes, move->pipe_gap_x);
 }
 
 void	init_mlx(t_data *data, char *player_name)
 {
+	player_name = ft_strdup("");
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Flappy Bird");
 	data->img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -69,7 +70,8 @@ void	init_mlx(t_data *data, char *player_name)
 	data->hiscore = NULL;
 	data->letter_calc = NULL;
 	data->frame = 0;
-	data->gameover = 0;
+	data->gameover = true;
+	data->giving_input = false;
 	data->player_name = player_name;
 	data->score = 0;
 	data->tcolor = 0;
@@ -89,6 +91,4 @@ void	init_mlx(t_data *data, char *player_name)
 	data->pipe_top->y = 0;
 	data->pipe_bot->x = 0;
 	data->pipe_bot->y = 0;
-
-	data->hiscore = make_list(data->file_hiscore);
 }

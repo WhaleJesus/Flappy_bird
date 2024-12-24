@@ -1,12 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 05:23:35 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/23 18:10:55 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 20:37:26 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +65,7 @@ typedef struct	s_data
 	int					endian;
 	int					tcolor;
 	bool				tcolorbool;
+	bool				giving_input;
 	struct s_img		*bg;
 	struct s_img		*pipe_top;
 	struct s_img		*pipe_bot;

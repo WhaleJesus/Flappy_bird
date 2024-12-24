@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 09:39:23 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/23 20:00:18 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 22:03:46 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*strip_soh(char *str)
 		i++;
 	}
 	tmp[j] = '\0';
-	printf("%s\n", tmp);
+//	printf("%s\n", tmp);
 	return (tmp);
 }
 

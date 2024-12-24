@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 04:23:16 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/23 20:16:40 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 21:31:04 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ void		add_player_score(t_data *data);
 void		free_hiscore(t_hiscore *hiscore);
 void		write_hiscore(t_data *data);
 
+// input
+int		update_input(t_data *data, char c);
+void	remove_input(t_data *data, int size);
+void	draw_typingscreen(t_data *data);
+int		bird_flap(int keycode, t_data *data);
+
 //	draw
 void	draw_canvas(t_data *data);
 void	draw_fps(t_data *data, int fps);
@@ -65,6 +71,7 @@ unsigned long	get_time();
 unsigned long	get_timediff(unsigned long start);
 int				bird_flap(int keycode, t_data *data);
 int				calc_pipe_y(t_data *data, t_move *move);
+void			restart_game(t_data *data, t_move *move);
 
 // error and exit
 void	exit_msg(char *msg);

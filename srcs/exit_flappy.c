@@ -55,6 +55,7 @@ void	exit_flap(t_data *data, char *msg, bool init)
 	if (data->hiscore_path)
 		free(data->hiscore_path);
 	
+	free(data->player_name);
 	free(data->bg);
 	free(data->pipe_top);
 	free(data->pipe_bot);

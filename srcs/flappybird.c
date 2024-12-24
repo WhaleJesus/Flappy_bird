@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 04:22:51 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/23 19:11:04 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/24 00:53:39 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	restart_game(t_data *data, t_move *move)
 		i++;
 	}
 
-	data->gameover = 0;
+	data->gameover = false;
+	data->move->flap = 1;
 }
 
 void	check_score(t_data *data, t_move *move)
@@ -49,11 +50,48 @@ void	check_score(t_data *data, t_move *move)
 			{
 				data->score++;
 				move->pipe_score[i] = 1;
-				printf("Score: %lu\n", data->score);
+				//printf("Score: %lu\n", data->score);
 			}
 		}
 		i++;
 	}
+}
+
+bool	check_collision(t_img *bird, t_img *pipe, int x2, int y2)
+{
+	int		x1 = bird->x;
+	int		y1 = bird->y;
+	int		width1 = bird->width;
+	int		height1 = bird->height;
+	int		width2 = pipe->width;
+	int		height2 = pipe->height;
+
+	int		pos;
+	int		color;
+
+	int x_start = fmax(x1, x2);
+    int x_end = fmin(x1 + width1, x2 + width2);
+    int y_start = fmax(y1, y2);
+    int y_end = fmin(y1 + height1, y2 + height2);
+	
+	for (int y = y_start; y < y_end; y++)
+    {
+        for (int x = x_start; x < x_end; x++)
+        {
+            int offset1 = (y - y1) * bird->line_length + (x - x1) * (bird->bits_per_pixel / 8);
+            int offset2 = (y - y2) * pipe->line_length + (x - x2) * (pipe->bits_per_pixel / 8);
+
+            int color1 = *(int *)(bird->tex_data + offset1);
+            int color2 = *(int *)(pipe->tex_data + offset2);
+
+            if (color1 != 0xFF000000 && color2 != 0xFF000000) // Non-transparent pixels collide
+			{
+				printf("%x, %x\n", color1, color2);
+				return (1);
+			}
+        }
+    }
+    return (0); // No collision
 }
 
 void	calc_hitboxes(t_data *data, t_move *move)
@@ -63,19 +101,26 @@ void	calc_hitboxes(t_data *data, t_move *move)
 	i = 0;
 	while (i < move->n_pipes)
 	{
-		if (move->pipe_pos_x[i] <= data->bird->x + data->bird->width - 15
-				&& data->bird->x + 30 <= move->pipe_pos_x[i] + data->pipe_top->width)
+		if (move->pipe_pos_x[i] <= data->bird->x + data->bird->width
+				&& data->bird->x <= move->pipe_pos_x[i] + data->pipe_top->width)
 		{
-			if (data->bird->y + 5 < move->pipe_pos_y[i] - move->pipe_gap_y / 2
-					|| data->bird->y + data->bird->height - 5 > move->pipe_pos_y[i] + move->pipe_gap_y / 2)
-				data->gameover = true;
+			if (data->bird->y < move->pipe_pos_y[i] - move->pipe_gap_y / 2
+					|| data->bird->y + data->bird->height > move->pipe_pos_y[i] + move->pipe_gap_y / 2)
+			{
+				if (check_collision(data->bird, data->pipe_bot, move->pipe_pos_x[i],
+							move->pipe_pos_y[i] + (move->pipe_gap_y / 2) + data->pipe_top->height))
+					data->gameover = true;
+				else if (check_collision(data->bird, data->pipe_top, move->pipe_pos_x[i],
+							move->pipe_pos_y[i] - (move->pipe_gap_y / 2)))
+					data->gameover = true;
+			}
 		}
 		i++;
 	}
 	if (move->bird_y >= WINDOW_HEIGHT - data->bird->height)
 		data->gameover = true;
 	if (data->gameover)
-		add_player_score(data);
+		data->giving_input = true;
 }
 
 int		calc_pipe_y(t_data *data, t_move *move)
@@ -111,18 +156,6 @@ void	update_pipes(t_data *data, t_move *move)
 		move->pipe_pos_x[i] = (int)floor(pos);
 		i++;
 	}
-}
-
-int	bird_flap(int keycode, t_data *data)
-{
-	//printf("keycode: %i\n", keycode);
-	if (keycode == 32)
-		data->move->flap = 1;
-	else if (keycode == 65293)
-		restart_game(data, data->move);
-	else if (keycode == 65307)
-		exit_flap_loop(data);
-	return (0);
 }
 
 void	update_bird(t_data *data, t_move *move)
@@ -172,7 +205,10 @@ int	check_frame(t_data *data)
 		else
 		{
 			draw_canvas(data);
-			draw_gameover(data);
+			if (data->giving_input)
+				draw_typingscreen(data);
+			else
+				draw_gameover(data);
 		}
 		draw_fps(data, fps2);
 		mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
@@ -185,8 +221,7 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
-	if (ac != 2)
-		exit_msg(ft_strdup("gayass\n"));
+	ac = ac;
 	init_mlx(&data, av[1]);
 	check_file(&data, "settings/settings.flap");
 	init_imgs(&data);

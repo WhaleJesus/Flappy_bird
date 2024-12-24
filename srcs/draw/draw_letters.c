@@ -6,7 +6,7 @@
 /*   By: sklaps <sklaps@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 02:59:31 by sklaps            #+#    #+#             */
-/*   Updated: 2024/12/22 07:48:04 by sklaps           ###   ########.fr       */
+/*   Updated: 2024/12/23 20:39:42 by sklaps           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	check_letter(char c, char **letters, int x, int y)
 	{
 		if (letters[i][0] == c)
 		{
-			if (ft_strlen(letters[i + x]) > 1 && y >= 0)
+			if (ft_strlen(letters[i + x]) > 0 && y >= 0)
 			{
 				if (letters[i + x][y] == '*')
 					return (true);

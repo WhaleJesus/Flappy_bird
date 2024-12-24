@@ -9,7 +9,7 @@ void	print_list(t_hiscore **hiscore)
 		head = head->prev;
 	while (head)
 	{
-		printf("%s %i\n", head->name, head->score);
+//		printf("%s %i\n", head->name, head->score);
 		head = head->next;
 	}
 	//while (head->prev)
@@ -19,8 +19,12 @@ void	print_list(t_hiscore **hiscore)
 
 t_hiscore	*new_node(char *name, int score)
 {
-	t_hiscore *hiscore;
+	t_hiscore	*hiscore;
+	char		*tmp;
 
+	tmp = ft_strjoin(name, ";");
+	if (!ft_strncmp(tmp, ";", 1))
+		return (free(tmp), NULL);
 	hiscore = malloc(sizeof(t_hiscore));
 	if (!hiscore || !name || score < 0)
 		return (NULL);
@@ -47,7 +51,6 @@ void	add_node(t_hiscore *hiscore, char *name, int score)
 	{
 		if (head->score <= new->score)
 		{
-			printf("no new %s %i\n", name, score);
 			new->next = head;
 			if (head->prev)
 				new->prev = head->prev;
@@ -105,14 +108,10 @@ void	add_player_score(t_data *data)
 	int	score;
 
 	score = (int)data->score;
-	printf("%s %i\n", data->player_name, score);
 	if (!data->hiscore)
 		data->hiscore = new_node(data->player_name, score);
 	else
-	{
-		printf("gay\n");
 		add_node(data->hiscore, data->player_name, score);
-	}
 	data->hiscore = get_head(data->hiscore);
 //	print_list(&data->hiscore);
 }
